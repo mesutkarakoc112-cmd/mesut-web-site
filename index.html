@@ -2,23 +2,34 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Premium 3D Dünya Havacılık Haritası</title>
+<title>Golden Globe Aviation Map</title>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.16.0/dist/maplibre-gl.css">
 <style>
-html,body,#map{height:100%;margin:0;background:radial-gradient(circle at 50% 45%,#10253d 0,#020711 62%,#000 100%);font-family:Arial,sans-serif;overflow:hidden}
-#map{position:absolute;inset:0}.hero{position:absolute;z-index:10;top:20px;left:50%;transform:translateX(-50%);padding:12px 22px;border:1px solid #ffffff22;border-radius:16px;background:#041525c9;backdrop-filter:blur(12px);box-shadow:0 10px 35px #0008;text-align:center;color:#d8e8f3}.hero b{font-size:18px;color:#48efaa;letter-spacing:.4px}.hero small{color:#9db5c6}.buttons{position:absolute;z-index:10;right:20px;top:20px;display:flex;gap:10px}.buttons button{border:1px solid #ffffff22;border-radius:12px;padding:12px 17px;color:#fff;font-weight:700;cursor:pointer;box-shadow:0 8px 25px #0006}.world{background:#07324dcc}.turkey{background:#e30a17ee}.hint{position:absolute;z-index:10;bottom:22px;left:22px;color:#c9d9e5;background:#031522bd;border:1px solid #ffffff1c;border-radius:12px;padding:10px 14px;backdrop-filter:blur(8px);font-size:12px}.airport{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#26e797;border:2px solid white;box-shadow:0 0 15px #26e797,0 3px 7px #0009;font-size:13px;cursor:pointer}.maplibregl-popup-content{border-radius:12px;background:#061b29;color:#eaf5fb;box-shadow:0 8px 28px #0008}.maplibregl-popup-tip{border-top-color:#061b29!important}.maplibregl-ctrl-group{background:#071d2b!important}.maplibregl-ctrl button span{filter:invert(1)}
+html,body,#map{height:100%;margin:0;background:radial-gradient(circle,#17202a 0,#050a10 65%,#000 100%);font-family:Arial,sans-serif}.head{position:absolute;z-index:10;top:18px;left:50%;transform:translateX(-50%);background:#17120bd9;border:1px solid #e7c35b55;color:#fff;padding:11px 22px;border-radius:14px;text-align:center;box-shadow:0 8px 28px #0008}.head b{color:#f5d979}.buttons{position:absolute;z-index:10;right:18px;top:18px;display:flex;gap:8px}.buttons button{border:1px solid #f6dc7855;border-radius:10px;padding:11px 15px;font-weight:700;color:#fff;cursor:pointer}.world{background:#34280dcc}.turkey{background:#b30c15e8}.airport{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#ffd65a;border:2px solid #fff5c2;box-shadow:0 0 16px #ffd65a;font-size:13px;color:#251900}.maplibregl-popup-content{background:#17120b;color:#fff5ce;border:1px solid #d8b65c;border-radius:10px}.maplibregl-popup-tip{border-top-color:#17120b!important}
 </style></head><body>
-<div class="hero">🌐 <b>GLOBAL AVIATION FUEL MAP</b><br><small>Türkiye • Jet A-1 • SAF</small></div>
-<div class="buttons"><button class="world" id="world">🌍 Dünya</button><button class="turkey" id="turkey">🇹🇷 Türkiye</button></div>
-<div class="hint">🖱️ Küreyi sürükleyerek döndür • Tekerlek ile yakınlaştır</div><div id="map"></div>
+<div class="head">🌐 <b>GLOBAL AVIATION FUEL MAP</b><br><small>Türkçe • English</small></div>
+<div class="buttons"><button id="world" class="world">🌍 Dünya / World</button><button id="turkey" class="turkey">🇹🇷 Türkiye / Turkey</button></div>
+<div id="map"></div>
 <script type="module">
 import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.16.0/dist/maplibre-gl.mjs';
-const satellite='https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2020_3857/default/g/{z}/{y}/{x}.jpg';
-const style={version:8,sources:{earth:{type:'raster',tiles:[satellite],tileSize:256,attribution:'EOX Sentinel-2 cloudless'}},layers:[{id:'space',type:'background',paint:{'background-color':'#020711'}},{id:'earth',type:'raster',source:'earth',paint:{'raster-saturation':-.08,'raster-contrast':.12,'raster-brightness-min':.08,'raster-brightness-max':.92}}]};
-const map=new maplibregl.Map({container:'map',style,center:[25,25],zoom:1.25,maxZoom:10,canvasContextAttributes:{antialias:true}});
-map.addControl(new maplibregl.NavigationControl({showCompass:true}),'bottom-right');
-map.on('style.load',()=>map.setProjection({type:'globe'}));
-const airports=[['İstanbul Havalimanı','IST','LTFM',28.7519,41.2753],['Sabiha Gökçen','SAW','LTFJ',29.3092,40.8986],['Ankara Esenboğa','ESB','LTAC',32.9951,40.1281],['İzmir Adnan Menderes','ADB','LTBJ',27.1570,38.2924],['Antalya Havalimanı','AYT','LTAI',30.8005,36.8987]];
-map.on('load',()=>airports.forEach(a=>{const el=document.createElement('div');el.className='airport';el.textContent='✈';new maplibregl.Marker({element:el}).setLngLat([a[3],a[4]]).setPopup(new maplibregl.Popup({offset:18}).setHTML(`<b>${a[0]}</b><br><br>IATA: <b>${a[1]}</b><br>ICAO: <b>${a[2]}</b><br><br>⛽ Jet A-1<br>🌱 SAF`)).addTo(map);}));
-document.getElementById('turkey').onclick=()=>map.flyTo({center:[35,39],zoom:5,duration:1800});document.getElementById('world').onclick=()=>map.flyTo({center:[25,25],zoom:1.25,duration:1800});
+const map=new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/bright',center:[20,28],zoom:1.15,canvasContextAttributes:{antialias:true}});
+map.addControl(new maplibregl.NavigationControl(),'bottom-right');
+function bilingualLabels(){
+ const style=map.getStyle(); if(!style||!style.layers)return;
+ for(const layer of style.layers){
+  if(layer.type!=='symbol'||!layer.layout||!layer.layout['text-field'])continue;
+  const id=(layer.id||'').toLowerCase();
+  const isCountry=id.includes('country'); const isCity=id.includes('city')||id.includes('place');
+  if(!isCountry&&!isCity)continue;
+  try{map.setLayoutProperty(layer.id,'text-field',['format',['coalesce',['get','name:tr'],['get','name']],{'font-scale':isCountry?1.05:.9},' / ',{},['coalesce',['get','name:en'],['get','name']],{'font-scale':isCountry?1.05:.9}]);
+      map.setPaintProperty(layer.id,'text-color',isCountry?'#ffe79a':'#fff3c9');
+      map.setPaintProperty(layer.id,'text-halo-color','#3a2600');map.setPaintProperty(layer.id,'text-halo-width',1.4);
+  }catch(e){}
+ }
+}
+map.on('style.load',()=>{map.setProjection({type:'globe'});bilingualLabels();});
+const airports=[['İstanbul Havalimanı','IST','LTFM',28.7519,41.2753],['Sabiha Gökçen','SAW','LTFJ',29.3092,40.8986],['Ankara Esenboğa','ESB','LTAC',32.9951,40.1281],['İzmir Adnan Menderes','ADB','LTBJ',27.157,38.2924],['Antalya Havalimanı','AYT','LTAI',30.8005,36.8987]];
+map.on('load',()=>airports.forEach(a=>{const el=document.createElement('div');el.className='airport';el.textContent='✈';new maplibregl.Marker({element:el}).setLngLat([a[3],a[4]]).setPopup(new maplibregl.Popup({offset:18}).setHTML(`<b>${a[0]}</b><br>IATA: ${a[1]}<br>ICAO: ${a[2]}<br>⛽ Jet A-1<br>🌱 SAF`)).addTo(map);}));
+document.getElementById('turkey').onclick=()=>map.flyTo({center:[35,39],zoom:4.8,duration:1800});
+document.getElementById('world').onclick=()=>map.flyTo({center:[20,28],zoom:1.15,duration:1800});
 </script></body></html>
