@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesut Karakoç | Havacılık & Enerji</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f6f8;
+      color: #15232e;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #071f2c;
+      color: white;
+      padding: 18px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h2 {
+      color: #28c76f;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+    }
+
+    nav a:hover {
+      color: #28c76f;
+    }
+
+    .hero {
+      min-height: 75vh;
+      background: linear-gradient(135deg, #071f2c, #075985);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 10%;
+    }
+
+    .hero .small {
+      color: #40e38a;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 {
+      font-size: 55px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+      color: #40e38a;
+    }
+
+    .hero p {
+      max-width: 700px;
+      font-size: 20px;
+      color: #dbe7ed;
+    }
+
+    .button {
+      display: inline-block;
+      width: fit-content;
+      margin-top: 30px;
+      background: #28c76f;
+      color: #071f2c;
+      text-decoration: none;
+      padding: 14px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 70px 10%;
+    }
+
+    section h2 {
+      text-align: center;
+      font-size: 34px;
+      margin-bottom: 40px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      border-top: 4px solid #28c76f;
+    }
+
+    .card h3 {
+      color: #075985;
+      margin-bottom: 12px;
+    }
+
+    .about {
+      background: white;
+      text-align: center;
+    }
+
+    .about p {
+      max-width: 850px;
+      margin: auto;
+      font-size: 18px;
+      color: #4b5b66;
+    }
+
+    .contact {
+      background: #071f2c;
+      color: white;
+      text-align: center;
+    }
+
+    .contact p {
+      color: #c9d8df;
+    }
+
+    footer {
+      text-align: center;
+      background: #04151e;
+      color: #9bb0ba;
+      padding: 20px;
+    }
+
+    @media (max-width: 800px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      nav a {
+        margin: 0 8px;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h2>MK</h2>
+
+  <nav>
+    <a href="#anasayfa">Ana Sayfa</a>
+    <a href="#uzmanlik">Uzmanlık</a>
+    <a href="#hakkimda">Hakkımda</a>
+    <a href="#iletisim">İletişim</a>
+  </nav>
+</header>
+
+<section class="hero" id="anasayfa">
+
+  <div class="small">HAVACILIK • ENERJİ • SÜRDÜRÜLEBİLİRLİK</div>
+
+  <h1>
+    Mesut <span>Karakoç</span>
+  </h1>
+
+  <p>
+    Havacılık yakıt operasyonları, Jet A-1, sürdürülebilir havacılık
+    yakıtı (SAF), yakıt kalite süreçleri ve enerji lojistiği üzerine
+    bilgi ve çalışmalar.
+  </p>
+
+  <a class="button" href="#uzmanlik">
+    Konuları İncele
+  </a>
+
+</section>
+
+<section id="uzmanlik
