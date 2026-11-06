@@ -3,37 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dünya Havacılık Haritası</title>
+<title>3D Dünya Havacılık Haritası</title>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.16.0/dist/maplibre-gl.css">
 <style>
-html,body,#map{height:100%;width:100%;margin:0}body{font-family:Arial,sans-serif;background:#071827}.top{position:absolute;z-index:5;top:16px;left:50%;transform:translateX(-50%);background:#062738;color:#fff;padding:12px 20px;border-radius:12px;text-align:center;box-shadow:0 5px 18px #0007}.top b{color:#31e58e}.buttons{position:absolute;z-index:6;right:18px;top:18px;display:flex;gap:8px}.buttons button{border:0;border-radius:9px;padding:11px 15px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px #0005}.world{background:#062738;color:#fff}.turkey{background:#e30a17;color:#fff}.maplibregl-popup-content{font-family:Arial,sans-serif;border-radius:10px}.airport{font-size:22px;color:#0a74c9;cursor:pointer}
+html,body,#map{height:100%;margin:0;background:#020914;font-family:Arial,sans-serif}.badge{position:absolute;z-index:10;top:18px;left:50%;transform:translateX(-50%);background:#061d2c;color:white;padding:12px 20px;border-radius:12px;text-align:center;box-shadow:0 4px 18px #0009}.badge b{color:#2ee58b}.buttons{position:absolute;z-index:10;right:18px;top:18px;display:flex;gap:8px}.buttons button{border:0;border-radius:9px;padding:12px 16px;font-weight:700;cursor:pointer}.world{background:#07304a;color:white}.turkey{background:#e30a17;color:white}.airport{font-size:24px;filter:drop-shadow(0 2px 3px #000)}
 </style>
-</head>
-<body>
-<div class="top">🌍 <b>Dünya Havacılık Haritası</b><br><small>Türkiye Havalimanları • Jet A-1 • SAF</small></div>
-<div class="buttons"><button class="world" id="world">🌍 Dünya</button><button class="turkey" id="turkey">🇹🇷 Türkiye</button></div>
+</head><body>
+<div class="badge">🌐 <b>3D DÜNYA KÜRESİ</b><br><small>Türkiye Havacılık Haritası</small></div>
+<div class="buttons"><button id="world" class="world">🌍 Dünya</button><button id="turkey" class="turkey">🇹🇷 Türkiye</button></div>
 <div id="map"></div>
 <script type="module">
 import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.16.0/dist/maplibre-gl.mjs';
-const map=new maplibregl.Map({container:'map',style:'https://demotiles.maplibre.org/style.json',center:[15,25],zoom:1.25,canvasContextAttributes:{antialias:true}});
+const map=new maplibregl.Map({container:'map',style:'https://demotiles.maplibre.org/style.json',center:[20,25],zoom:0.7,pitch:0,bearing:0,canvasContextAttributes:{antialias:true}});
 map.addControl(new maplibregl.NavigationControl(),'bottom-right');
-map.on('style.load',()=>map.setProjection({type:'globe'}));
-const airports=[
-['İstanbul Havalimanı','IST','LTFM',28.7519,41.2753],
-['Sabiha Gökçen Havalimanı','SAW','LTFJ',29.3092,40.8986],
-['Ankara Esenboğa Havalimanı','ESB','LTAC',32.9951,40.1281],
-['İzmir Adnan Menderes Havalimanı','ADB','LTBJ',27.1570,38.2924],
-['Antalya Havalimanı','AYT','LTAI',30.8005,36.8987]
-];
-map.on('load',()=>{
- airports.forEach(a=>{
-  const el=document.createElement('div');el.className='airport';el.textContent='✈';el.title=a[0];
-  new maplibregl.Marker({element:el}).setLngLat([a[3],a[4]])
-   .setPopup(new maplibregl.Popup({offset:20}).setHTML(`<b>✈ ${a[0]}</b><br><br>IATA: <b>${a[1]}</b><br>ICAO: <b>${a[2]}</b><br><br>⛽ Jet A-1<br>🌱 SAF`)).addTo(map);
- });
-});
-document.getElementById('turkey').onclick=()=>map.flyTo({center:[35,39],zoom:5.2,duration:1800});
-document.getElementById('world').onclick=()=>map.flyTo({center:[15,25],zoom:1.25,duration:1800});
-</script>
-</body>
-</html>
+map.on('style.load',()=>{map.setProjection({type:'globe'});});
+const airports=[['İstanbul Havalimanı','IST','LTFM',28.7519,41.2753],['Sabiha Gökçen','SAW','LTFJ',29.3092,40.8986],['Ankara Esenboğa','ESB','LTAC',32.9951,40.1281],['İzmir Adnan Menderes','ADB','LTBJ',27.1570,38.2924],['Antalya Havalimanı','AYT','LTAI',30.8005,36.8987]];
+map.on('load',()=>airports.forEach(a=>{const el=document.createElement('div');el.className='airport';el.textContent='✈️';new maplibregl.Marker({element:el}).setLngLat([a[3],a[4]]).setPopup(new maplibregl.Popup({offset:24}).setHTML(`<b>${a[0]}</b><br>IATA: ${a[1]}<br>ICAO: ${a[2]}<br>⛽ Jet A-1<br>🌱 SAF`)).addTo(map);}));
+document.getElementById('turkey').onclick=()=>map.flyTo({center:[35,39],zoom:4.6,duration:1800});
+document.getElementById('world').onclick=()=>map.flyTo({center:[20,25],zoom:0.7,duration:1800});
+</script></body></html>
