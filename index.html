@@ -1,29 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Türkiye Havalimanları</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D Dünya Havacılık Haritası</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.16.0/dist/maplibre-gl.css">
 <style>
-html,body{height:100%;margin:0;font-family:Arial,sans-serif}#map{height:100%;width:100%}.title{position:absolute;top:15px;left:50%;transform:translateX(-50%);z-index:1000;background:#062738;color:#fff;padding:12px 25px;border-radius:10px;text-align:center;box-shadow:0 3px 12px rgba(0,0,0,.4)}.title strong{color:#30e58e}
+html,body,#map{height:100%;margin:0;background:#020914;font-family:Arial,sans-serif}.badge{position:absolute;z-index:10;top:18px;left:50%;transform:translateX(-50%);background:#061d2c;color:white;padding:12px 20px;border-radius:12px;text-align:center;box-shadow:0 4px 18px #0009}.badge b{color:#2ee58b}.buttons{position:absolute;z-index:10;right:18px;top:18px;display:flex;gap:8px}.buttons button{border:0;border-radius:9px;padding:12px 16px;font-weight:700;cursor:pointer}.world{background:#07304a;color:white}.turkey{background:#e30a17;color:white}.airport{font-size:24px;filter:drop-shadow(0 2px 3px #000)}
 </style>
-</head>
-<body>
-<div class="title">✈ <strong>Türkiye Havalimanları</strong><br>Havacılık Yakıt Haritası</div>
+</head><body>
+<div class="badge">🌐 <b>3D DÜNYA KÜRESİ</b><br><small>Türkiye Havacılık Haritası</small></div>
+<div class="buttons"><button id="world" class="world">🌍 Dünya</button><button id="turkey" class="turkey">🇹🇷 Türkiye</button></div>
 <div id="map"></div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const map=L.map('map').setView([39.0,35.0],6);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
-const airports=[
-{name:'İstanbul Havalimanı',iata:'IST',icao:'LTFM',lat:41.2753,lon:28.7519},
-{name:'Sabiha Gökçen Havalimanı',iata:'SAW',icao:'LTFJ',lat:40.8986,lon:29.3092},
-{name:'Ankara Esenboğa Havalimanı',iata:'ESB',icao:'LTAC',lat:40.1281,lon:32.9951},
-{name:'İzmir Adnan Menderes Havalimanı',iata:'ADB',icao:'LTBJ',lat:38.2924,lon:27.1570},
-{name:'Antalya Havalimanı',iata:'AYT',icao:'LTAI',lat:36.8987,lon:30.8005}
-];
-airports.forEach(a=>L.marker([a.lat,a.lon]).addTo(map).bindPopup('<b>✈ '+a.name+'</b><br><br>IATA: <b>'+a.iata+'</b><br>ICAO: <b>'+a.icao+'</b><br><br>⛽ Jet A-1<br>🌱 SAF'));
-</script>
-</body>
-</html>
+<script type="module">
+import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.16.0/dist/maplibre-gl.mjs';
+const map=new maplibregl.Map({container:'map',style:'https://demotiles.maplibre.org/style.json',center:[20,25],zoom:0.7,pitch:0,bearing:0,canvasContextAttributes:{antialias:true}});
+map.addControl(new maplibregl.NavigationControl(),'bottom-right');
+map.on('style.load',()=>{map.setProjection({type:'globe'});});
+const airports=[['İstanbul Havalimanı','IST','LTFM',28.7519,41.2753],['Sabiha Gökçen','SAW','LTFJ',29.3092,40.8986],['Ankara Esenboğa','ESB','LTAC',32.9951,40.1281],['İzmir Adnan Menderes','ADB','LTBJ',27.1570,38.2924],['Antalya Havalimanı','AYT','LTAI',30.8005,36.8987]];
+map.on('load',()=>airports.forEach(a=>{const el=document.createElement('div');el.className='airport';el.textContent='✈️';new maplibregl.Marker({element:el}).setLngLat([a[3],a[4]]).setPopup(new maplibregl.Popup({offset:24}).setHTML(`<b>${a[0]}</b><br>IATA: ${a[1]}<br>ICAO: ${a[2]}<br>⛽ Jet A-1<br>🌱 SAF`)).addTo(map);}));
+document.getElementById('turkey').onclick=()=>map.flyTo({center:[35,39],zoom:4.6,duration:1800});
+document.getElementById('world').onclick=()=>map.flyTo({center:[20,25],zoom:0.7,duration:1800});
+</script></body></html>
